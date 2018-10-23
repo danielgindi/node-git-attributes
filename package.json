@@ -1,0 +1,31 @@
+{
+  "name": "git-attributes",
+  "version": "1.0.0",
+  "description": "Parse gitattributes files",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielgindi/node-git-attributes"
+  },
+  "scripts": {
+    "test": "mocha ./tests/**/*test.js"
+  },
+  "keywords": [
+    "gitattributes",
+    "git-attributes",
+    "git",
+    "attributes"
+  ],
+  "author": "Daniel Cohen Gindi <danielgindi@gmail.com> (https://github.com/danielgindi)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/danielgindi/node-git-attributes/issues"
+  },
+  "homepage": "https://github.com/danielgindi/node-git-attributes",
+  "dependencies": {
+    "minimatch": "^3.0.4"
+  },
+  "devDependencies": {
+    "mocha": "^5.2.0"
+  }
+}
