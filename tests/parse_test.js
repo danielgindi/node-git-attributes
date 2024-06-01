@@ -214,4 +214,13 @@ describe('Read then write', async () => {
         assert.equal(attrs.serialize(), output);
     });
 
+    it(`Write only with spaces`, async () => {
+        let input = 'sample.txt\ttext=auto\n\n#this is a comment\n**/sample.txt\tflag=false';
+        let output = 'sample.txt text=auto\n\n#this is a comment\n**/sample.txt flag=false\n';
+
+        let attrs = new GitAttributes({ useOnlySpaces: true });
+        attrs.parse(input, true, true);
+
+        assert.equal(attrs.serialize(), output);
+    });
 });
