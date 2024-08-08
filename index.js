@@ -14,11 +14,13 @@ const minimatch = require('minimatch');
  */
 class GitAttributes {
 
-    constructor() {
+    constructor(opts) {
         /** @type {GitAttributes.Rule[]} */
         this._rules = [];
 
         this.rules = [];
+
+        this.useOnlySpaces = opts && opts.useOnlySpaces;
     }
 
     /**
@@ -115,7 +117,7 @@ class GitAttributes {
         let lines = [];
 
         for (let rule of this.rules) {
-            let line = GitAttributes.serializeRule(rule);
+            let line = this.serializeRule(rule);
             if (line !== null)
                 lines.push(line);
         }
@@ -245,7 +247,7 @@ class GitAttributes {
      * @param {GitAttributes.Rule|null} rule
      * @returns {String|null}
      */
-    static serializeRule(rule) {
+    serializeRule(rule) {
         if (!rule)
             return null;
 
@@ -291,7 +293,8 @@ class GitAttributes {
             }
         }
 
-        return out + (attrsOuts ? '\t' + attrsOuts : '');
+        let delimiter = this.useOnlySpaces ? ' ' : '\t';
+        return out + (attrsOuts ? delimiter + attrsOuts : '');
     }
 
     /**
