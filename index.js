@@ -1,6 +1,6 @@
 const Path = require('path');
 const Fs = require('fs');
-const minimatch = require('minimatch');
+const minimatch = require('minimatch').minimatch;
 
 /**
  * @typedef {Object} GitAttributes.Rule
