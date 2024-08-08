@@ -23,15 +23,17 @@ class GitAttributes {
      * @param {GitAttributes.SerializationOptions} opts 
      */
     constructor(opts) {
-        /** @type {GitAttributes.Rule[]} */
-        this._rules = [];
+        const p = this._p = {};
 
-        this.rules = [];
+        /** @type {GitAttributes.Rule[]} */
+        p.rules = [];
 
         /** @type {GitAttributes.SerializationOptions} */
-        this.opts = {
+        p.opts = {
             delimiter: opts && typeof opts.delimiter === 'string' ? opts.delimiter : '\t'
         };
+
+        this.rules = [];
     }
 
     /**
@@ -39,12 +41,14 @@ class GitAttributes {
      * @returns {GitAttributes.Rule[]}
      */
     get rules() {
-        return this._rules;
+        const p = this._p;
+        return p.rules;
     }
 
     /** @param {GitAttributes.Rule[]} rules */
     set rules(rules) {
-        this._rules = rules;
+        const p = this._p;
+        p.rules = rules;
     }
 
     /**
@@ -59,7 +63,8 @@ class GitAttributes {
      * @param {GitAttributes.Rule} rule
      */
     addRule(rule) {
-        this._rules.push(rule);
+        const p = this._p;
+        p.rules.push(rule);
     }
 
     /**
@@ -67,7 +72,8 @@ class GitAttributes {
      * @param {GitAttributes.Rule[]} rules
      */
     addRules(rules) {
-        this._rules.push(...rules);
+        const p = this._p;
+        p.rules.push(...rules);
     }
 
     /**
@@ -125,10 +131,12 @@ class GitAttributes {
      * @returns {String}
      */
     serialize() {
+        const p = this._p;
+
         let lines = [];
 
         for (let rule of this.rules) {
-            let line = GitAttributes.serializeRule(rule, this.opts);
+            let line = GitAttributes.serializeRule(rule, p.opts);
             if (line !== null)
                 lines.push(line);
         }
@@ -143,9 +151,10 @@ class GitAttributes {
      * @param {Boolean} [includeEmptyLines=false] - return an empty rule for empty lines
      */
     readLine(line, includeComments = false, includeEmptyLines = false) {
+        const p = this._p;
         let rule = GitAttributes.parseRule(line, includeComments, includeEmptyLines);
         if (rule)
-            this._rules.push(rule);
+            p.rules.push(rule);
     }
 
     /**
