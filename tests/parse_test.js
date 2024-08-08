@@ -218,7 +218,7 @@ describe('Read then write', async () => {
         let input = 'sample.txt\ttext=auto\n\n#this is a comment\n**/sample.txt\tflag=false';
         let output = 'sample.txt text=auto\n\n#this is a comment\n**/sample.txt flag=false\n';
 
-        let attrs = new GitAttributes({ useOnlySpaces: true });
+        let attrs = new GitAttributes({ delimiter: ' ' });
         attrs.parse(input, true, true);
 
         assert.equal(attrs.serialize(), output);

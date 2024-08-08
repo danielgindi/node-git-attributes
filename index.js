@@ -10,17 +10,28 @@ const minimatch = require('minimatch');
  */
 
 /**
+ * @typedef {Object} GitAttributes.SerializationOptions
+ * @property {string} delimiter
+ */
+
+/**
  * @class
  */
 class GitAttributes {
 
+    /**
+     * @param {GitAttributes.SerializationOptions} opts 
+     */
     constructor(opts) {
         /** @type {GitAttributes.Rule[]} */
         this._rules = [];
 
         this.rules = [];
 
-        this.useOnlySpaces = opts && opts.useOnlySpaces;
+        /** @type {GitAttributes.SerializationOptions} */
+        this.opts = {
+            delimiter: opts && typeof opts.delimiter === 'string' ? opts.delimiter : '\t'
+        };
     }
 
     /**
@@ -117,7 +128,7 @@ class GitAttributes {
         let lines = [];
 
         for (let rule of this.rules) {
-            let line = this.serializeRule(rule);
+            let line = GitAttributes.serializeRule(rule, this.opts);
             if (line !== null)
                 lines.push(line);
         }
@@ -245,9 +256,10 @@ class GitAttributes {
     /**
      * Serializes a rule to a string
      * @param {GitAttributes.Rule|null} rule
+     * @param {GitAttributes.SerializationOptions} [opts]
      * @returns {String|null}
      */
-    serializeRule(rule) {
+    static serializeRule(rule, opts) {
         if (!rule)
             return null;
 
@@ -293,7 +305,7 @@ class GitAttributes {
             }
         }
 
-        let delimiter = this.useOnlySpaces ? ' ' : '\t';
+        let delimiter = typeof opts.delimiter === 'string' ? opts.delimiter : '\t';
         return out + (attrsOuts ? delimiter + attrsOuts : '');
     }
 
